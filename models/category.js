@@ -4,8 +4,7 @@ const {Schema}=mongoose
 const categorySchema=mongoose.Schema({
     title: {
         type: String,
-        enum: ["Horror", "Mystery", "Science Fiction", "Romance", "Fantasy", "Thriller"],
-        required: true,
+        required: true
       }
     
 })
