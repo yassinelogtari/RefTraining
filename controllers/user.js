@@ -8,7 +8,8 @@ const singup=(req,res,next)=>{
     bcrypt.hash(req.body.password,10).then((hash)=>{
         const user = new User({
             email:req.body.email,
-            password:hash
+            password:hash,
+            role:req.body.role,
         })
         user.save().then((response)=>{
             const newUser=response.toObject()
