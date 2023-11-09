@@ -1,6 +1,7 @@
 const express = require ("express")
 const mongoose=require("mongoose")
 
+
 const bookRoutes=require("./routes/book")
 const userRouter=require("./routes/user")
 const catRouter=require("./routes/category")
@@ -22,6 +23,9 @@ app.use("/api/book",bookRoutes)
 app.use("/api/auth",userRouter)
 app.use("/api/author",authorRouter)
 app.use("/api/category",catRouter)
+
+
+
 
 
 module.exports = app

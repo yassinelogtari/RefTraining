@@ -16,6 +16,7 @@ const fetchBook=(req,res)=>{
             message:"failed"
         })
     })
+    
 }
 
 const addBook = (req, res, next) => {
@@ -107,9 +108,24 @@ const updateBook=(req,res)=>{
     
 }
 
+
+const findbookwithinstance=(req,res)=>{
+
+const booksame= new Book ({title:"cab"});
+booksame.findBooksTitle().then((books)=>{
+  res.status(401).json({
+    books
+  })
+}).catch((err)=>{
+  console.error(err);
+})
+
+}
+
 module.exports={
     fetchBook,
     addBook,
     deletBook,
-    updateBook
+    updateBook,
+    findbookwithinstance
 }
