@@ -1,7 +1,31 @@
-const { model } = require("mongoose")
 const Book=require("../models/book")
 const Aut=require("../models/author")
 const cat = require("../models/category");
+
+
+const fetchOneBook=async(req,res)=>{
+  try{
+    const book=await Book.findOne(req.params._id).populate('author').populate('category')
+    res.status(201).json({
+      book
+    })
+  }
+  catch(error){
+    res.status(401).json({
+      error:error.message
+    })
+  }
+
+  /*Book.findOne(req.params._id).populate('author').populate('category').then((book)=>{
+    res.status(201).json({
+      book
+    })
+  }).catch((error)=>{
+    res.status(401).json({
+      error:error.message
+    })
+  })*/
+}
 
 const fetchBook=(req,res)=>{
     Book.find().populate('author').populate('category').then((books)=>{
@@ -19,10 +43,40 @@ const fetchBook=(req,res)=>{
     
 }
 
-const addBook = (req, res, next) => {
+const addBook = async(req, res, next) => {
+
     const { title, author,category} = req.body;
     const newBook = new Book({ title, author,category});
-  
+    try{
+      const authorResponse=await Aut.findOne({ _id: author })
+      if (!authorResponse) {
+        res.status(401).json({ error: "Auteur introuvable!" });
+      }else{
+        const categoryResponse=await  cat.findOne({ _id: category })
+          if (!categoryResponse) {
+            res.status(401).json({ error: "Categorie introuvable!" });
+          }
+          else {
+            try{
+              const newnewBook= await newBook.save()
+              res.status(201).json({
+                newnewBook
+              })
+            }catch(error){
+              res.status(401).json( {
+                error:error.message
+              })
+            }
+           
+          }
+      }
+    }catch(error){
+      res.status(401).json( {
+        error:error.message
+      })
+    }
+    
+  /*
     Aut.findOne({ _id: author })
       .then((authorResponse) => {
         if (!authorResponse) {
@@ -50,8 +104,8 @@ const addBook = (req, res, next) => {
       })
       .catch((authorError) => {
         res.status(400).json({ erreur: "Erreur lors de la recherche de l'auteur" });
-      });
-  };
+      });*/
+  }
 
 
 /*const addBook=(req,res)=>{
@@ -108,7 +162,6 @@ const updateBook=(req,res)=>{
     
 }
 
-
 const findbookwithinstance=(req,res)=>{
 
 const booksame= new Book ({title:"cab"});
@@ -122,8 +175,6 @@ booksame.findBooksTitle().then((books)=>{
 
 }
 
-
- 
 const findtwobooks = (req, res) => {
   Book.findtwoBooks().then((books) => {
     res.status(201).json({
@@ -136,6 +187,7 @@ const findtwobooks = (req, res) => {
 
 
 module.exports={
+    fetchOneBook,
     fetchBook,
     addBook,
     deletBook,
