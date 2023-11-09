@@ -11,4 +11,8 @@ bookSchema.methods.findBooksTitle = function(cb) {
     return mongoose.model('Book').find({ title: this.title }, cb);
   };
 
+bookSchema.statics.findtwoBooks = function(cb) {
+    return mongoose.model('Book').find().limit(2)
+  };
+
 module.exports=mongoose.model("Book",bookSchema)

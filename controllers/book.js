@@ -122,10 +122,24 @@ booksame.findBooksTitle().then((books)=>{
 
 }
 
+
+ 
+const findtwobooks = (req, res) => {
+  Book.findtwoBooks().then((books) => {
+    res.status(201).json({
+      books
+    });
+  }).catch((err) => {
+    console.error(err);
+  });
+}
+
+
 module.exports={
     fetchBook,
     addBook,
     deletBook,
     updateBook,
-    findbookwithinstance
+    findbookwithinstance,
+    findtwobooks
 }

@@ -8,6 +8,7 @@ router.post("/add",BookController.addBook)
 router.delete("/:id",BookController.deletBook)
 router.put("/:id",BookController.updateBook)
 router.get("/bookinstance",BookController.findbookwithinstance)
+router.get("/twobooks",BookController.findtwobooks)
 
 
 module.exports=router
